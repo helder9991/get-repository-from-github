@@ -1,12 +1,18 @@
 function add() {
     const user = document.querySelector('input').value
-    
+    let divElement = document.querySelector('div')
+    divElement.innerHTML = 'Loading...'
+
     axios.get('https://api.github.com/users/'+ user +'/repos')
         .then(function(response) {
-            
+            divElement.innerHTML = ''
+
             let ulElement = document.querySelector('div ul')
-            ulElement.innerHTML = ''
-            
+            if(ulElement != null)
+                ulElement.innerHTML = ''
+            else{
+                ulElement = document.createElement('ul')
+            }
             for(x of response.data){
                 let liElement = document.createElement('li')
                 let txtNode = document.createTextNode(x.name)
@@ -18,6 +24,8 @@ function add() {
             containerElement.appendChild(ulElement)
         })
         .catch(function(error) {
+            console.log(error);
+            
             let divElement = document.querySelector('div')
             divElement.innerHTML = ''
 
