@@ -1,20 +1,29 @@
-function adicionar() {
+function add() {
     const user = document.querySelector('input').value
     
     axios.get('https://api.github.com/users/'+ user +'/repos')
         .then(function(response) {
             
-            var ulElement = document.querySelector('div ul')
+            let ulElement = document.querySelector('div ul')
             ulElement.innerHTML = ''
             
             for(x of response.data){
-                var liElement = document.createElement('li')
-                var txtNode = document.createTextNode(x.name)
+                let liElement = document.createElement('li')
+                let txtNode = document.createTextNode(x.name)
                 
                 liElement.appendChild(txtNode)
                 ulElement.appendChild(liElement)
             }
-            var containerElement = document.querySelector('div.container')
+            let containerElement = document.querySelector('div.container')
             containerElement.appendChild(ulElement)
+        })
+        .catch(function(error) {
+            let divElement = document.querySelector('div')
+            divElement.innerHTML = ''
+
+            let message = document.createElement('div')
+            let txtNode = document.createTextNode("Erro: User name doesn't exists")
+            message.appendChild(txtNode)
+            divElement.appendChild(message)
         })
 }
